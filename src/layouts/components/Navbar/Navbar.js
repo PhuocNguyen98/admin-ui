@@ -2,9 +2,9 @@ import classNames from 'classnames/bind';
 import styles from './Navbar.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faUser,
-  faGear,
-  faRightFromBracket,
+  faPenToSquare,
+  // faGear,
+  // faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import { Container } from 'react-bootstrap';
 
@@ -14,37 +14,37 @@ const cx = classNames.bind(styles);
 
 const navbarList = [
   {
-    icon: <FontAwesomeIcon icon={faUser} />,
-    title: 'View profile',
-    to: '/profile',
-    submenu: [
-      {
-        icon: <FontAwesomeIcon icon={faGear} />,
-        title: 'Setting',
-        to: '/setting',
-      },
-      {
-        icon: <FontAwesomeIcon icon={faGear} />,
-        title: 'Setting',
-        to: '/setting',
-      },
-      {
-        icon: <FontAwesomeIcon icon={faGear} />,
-        title: 'Setting',
-        to: '/setting',
-      },
-    ],
+    icon: <FontAwesomeIcon icon={faPenToSquare} />,
+    title: 'Post',
+    to: '/post',
+    // submenu: [
+    //   {
+    //     icon: <FontAwesomeIcon icon={faGear} />,
+    //     title: 'Setting',
+    //     to: '/setting',
+    //   },
+    //   {
+    //     icon: <FontAwesomeIcon icon={faGear} />,
+    //     title: 'Setting',
+    //     to: '/setting',
+    //   },
+    //   {
+    //     icon: <FontAwesomeIcon icon={faGear} />,
+    //     title: 'Setting',
+    //     to: '/setting',
+    //   },
+    // ],
   },
-  {
-    icon: <FontAwesomeIcon icon={faGear} />,
-    title: 'Setting',
-    to: '/setting',
-  },
-  {
-    icon: <FontAwesomeIcon icon={faRightFromBracket} />,
-    title: 'Log out',
-    to: '/logout',
-  },
+  // {
+  //   icon: <FontAwesomeIcon icon={faGear} />,
+  //   title: 'Setting',
+  //   to: '/setting',
+  // },
+  // {
+  //   icon: <FontAwesomeIcon icon={faRightFromBracket} />,
+  //   title: 'Log out',
+  //   to: '/logout',
+  // },
 ];
 
 function Navbar() {

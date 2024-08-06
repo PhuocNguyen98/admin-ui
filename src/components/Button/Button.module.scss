@@ -16,6 +16,10 @@
   & + .wrapper {
     margin-left: 6px;
   }
+
+  &:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  }
 }
 
 .primary {
@@ -37,6 +41,30 @@
   }
 }
 
+.btnInfo {
+  background-color: var(--bg-btn-info);
+  color: var(--white-color);
+  &:hover {
+    background-color: var(--bg-hover-btn-info);
+  }
+}
+
+.btnDanger {
+  background-color: var(--bg-btn-danger);
+  color: var(--white-color);
+  &:hover {
+    background-color: var(--bg-hover-btn-danger);
+  }
+}
+
+.btnSuccess {
+  background-color: var(--bg-btn-success);
+  color: var(--white-color);
+  &:hover {
+    background-color: var(--bg-hover-btn-success);
+  }
+}
+
 .icon {
   width: 24px;
 }
@@ -44,4 +72,9 @@
 .icon + .title,
 .title + .icon {
   margin-left: 6px;
+}
+
+// Size button
+.small {
+  padding: 6px 10px;
 }

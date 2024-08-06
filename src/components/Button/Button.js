@@ -9,8 +9,12 @@ function Button({
   href,
   primary,
   outline,
+  btnSuccess,
+  btnInfo,
+  btnDanger,
   iconLeft,
   iconRight,
+  small,
   className,
   children,
   onClick,
@@ -30,13 +34,17 @@ function Button({
     [className]: className,
     primary,
     outline,
+    btnSuccess,
+    btnInfo,
+    btnDanger,
+    small,
   });
 
   return (
     <Comp className={classes} {...props} onClick={onClick}>
-      <span className={cx('icon')}>{iconLeft}</span>
+      {iconLeft && <span className={cx('icon')}>{iconLeft}</span>}
       <span className={cx('title')}>{children}</span>
-      <span className={cx('icon')}>{iconRight}</span>
+      {iconRight && <span className={cx('icon')}>{iconRight}</span>}
     </Comp>
   );
 }
