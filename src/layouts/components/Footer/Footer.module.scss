@@ -1,0 +1,16 @@
+.wrapper {
+  height: var(--footer-height);
+  box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  p {
+    margin: 0;
+    color: var(--text-footer-color);
+  }
+}
