@@ -1,6 +1,17 @@
 @import 'normalize.css';
 
 :root {
+  --header-height: 72px;
+  --navbar-height: 70px;
+
+  --primary-color: #ff4961;
+  --white-color: #fff;
+  --text-color: #464855;
+  --border-color: #ccc;
+
+  --background-color-navbar: #2c343b;
+
+  --box-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 
 * {
@@ -17,4 +28,15 @@ body {
   font-family: 'Times New Roman', Times, serif;
   line-height: 1.6rem;
   text-rendering: optimizeSpeed;
+}
+
+a[href] {
+  text-decoration: none;
+}
+
+button,
+input {
+  border: none;
+  outline: none;
+  background-color: transparent;
 }

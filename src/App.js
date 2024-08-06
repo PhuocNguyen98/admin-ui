@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -7,7 +8,7 @@ import DefaultLayout from '~/layouts';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="app">
         <Routes>
           {publicRoutes.map((route, index) => {
             let Layout = DefaultLayout;

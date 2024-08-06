@@ -1,0 +1,19 @@
+.wrapper {
+  height: var(--navbar-height);
+  background-color: var(--background-color-navbar);
+}
+
+.inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-list {
+  height: 100%;
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
