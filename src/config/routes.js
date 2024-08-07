@@ -1,6 +1,7 @@
 const routes = {
   home: '/',
   post: '/post',
+  login: '/login',
 };
 
 export const pages = {
