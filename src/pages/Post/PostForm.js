@@ -3,29 +3,49 @@ import styles from './Post.module.scss';
 import { Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
-import config from '~/config';
 import Button from '~/components/Button';
 import { addPost, getPostById, editPost } from '~/api/postApi';
 import { fetchAddSuccess, fetchEditSuccess } from '~/store/actionsType';
 
 const cx = classNames.bind(styles);
 
+const schema = yup
+  .object({
+    title: yup.string().required('Vui long nhap tieu de bai viet'),
+  })
+  .required();
+
 function PostForm() {
-  const [postItem, setPostItem] = useState(null);
   const { postId } = useParams();
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts.data);
+  const navigate = useNavigate(); // Dung de lay history link
 
-  const navigate = useNavigate();
+  const {
+    handleSubmit,
+    control,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: '',
+      body: '',
+    },
+    resolver: yupResolver(schema),
+  });
 
   const getPost = async () => {
     const res = await getPostById(postId);
     // console.log(res);
-    setPostItem(res);
+    setValue('title', res.title);
+    setValue('body', res.body);
   };
 
   const resultPostItem = () => {
@@ -39,21 +59,20 @@ function PostForm() {
     resultPostItem();
   }, [postId]);
 
-  const changeInput = (name, e) => {
-    setPostItem((pre) => ({ ...pre, [name]: e.target.value }));
-  };
-
-  const handleAdd = async () => {
-    const res = await addPost(postItem);
+  const handleAdd = handleSubmit(async (submitedData) => {
+    const res = await addPost(submitedData);
     console.log(res);
     if (res) {
-      setPostItem(null);
       dispatch(fetchAddSuccess(res));
+      reset({
+        title: '',
+        body: '',
+      });
     }
-  };
+  });
 
-  const handleEdit = async (id) => {
-    const res = await editPost(id, postItem);
+  const handleEdit = async (id, submitedData) => {
+    const res = await editPost(id, submitedData);
     console.log(res);
     dispatch(fetchEditSuccess(res));
   };
@@ -63,7 +82,6 @@ function PostForm() {
       <Container>
         <div className={cx('inner')}>
           <Button
-            // to={config.routes.post}
             onClick={() => navigate(-1)}
             iconLeft={<FontAwesomeIcon icon={faChevronLeft} />}
             className={cx('back-btn')}
@@ -72,33 +90,49 @@ function PostForm() {
           </Button>
 
           <form className={cx('form')}>
-            <div className={cx('form-group')}>
-              <span className={cx('form-label')}>Title</span>
-              <input
-                type="text"
-                placeholder="Title"
-                value={postItem && postItem.title ? postItem.title : ''}
-                onChange={(e) => changeInput('title', e)}
-                className={cx('form-controls')}
-              />
-            </div>
-            <div className={cx('form-group')}>
-              <span className={cx('form-label')}>Description</span>
-              <textarea
-                rows={10}
-                onChange={(e) => changeInput('body', e)}
-                value={postItem && postItem.body ? postItem.body : ''}
-                placeholder="Description"
-                className={cx('form-controls')}
-              />
-            </div>
+            <Controller
+              control={control}
+              name="title"
+              render={({ field: { onChange, value } }) => (
+                <div className={cx('form-group')}>
+                  <span className={cx('form-label')}>Description</span>
+                  <input
+                    type="text"
+                    placeholder="Title"
+                    value={value}
+                    onChange={onChange}
+                    className={cx('form-controls')}
+                  />
+                  <span className={cx('msg-error')}>
+                    {errors.title?.message}
+                  </span>
+                </div>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="body"
+              render={({ field: { onChange, value } }) => (
+                <div className={cx('form-group')}>
+                  <span className={cx('form-label')}>Title</span>
+                  <textarea
+                    rows={10}
+                    onChange={onChange}
+                    value={value}
+                    placeholder="Description"
+                    className={cx('form-controls')}
+                  />
+                </div>
+              )}
+            />
 
             {postId ? (
               <Button
                 type="button"
                 btnSuccess
                 className={cx('form-btn')}
-                onClick={() => handleEdit(postId)}
+                onClick={handleSubmit((data) => handleEdit(postId, data))}
               >
                 Cập nhật
               </Button>
