@@ -1,3 +1,17 @@
+//Post
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 0;
+}
+
+.title {
+  font-size: 3rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
 // CSS PostForm
 .back-btn {
   margin-top: 16px;
@@ -7,11 +21,11 @@
   padding: 60px 0;
 }
 
-.form-gruop {
+.form-group {
   display: flex;
   flex-direction: column;
 
-  & + .form-gruop {
+  & + .form-group {
     margin-top: 32px;
   }
 }

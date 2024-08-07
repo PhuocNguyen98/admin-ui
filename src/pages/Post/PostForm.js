@@ -4,13 +4,13 @@ import { Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import config from '~/config';
 import Button from '~/components/Button';
 import { addPost, getPostById, editPost } from '~/api/postApi';
-import { fetchEditSuccess } from '~/store/actionsType';
+import { fetchAddSuccess, fetchEditSuccess } from '~/store/actionsType';
 
 const cx = classNames.bind(styles);
 
@@ -19,6 +19,8 @@ function PostForm() {
   const { postId } = useParams();
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts.data);
+
+  const navigate = useNavigate();
 
   const getPost = async () => {
     const res = await getPostById(postId);
@@ -46,6 +48,7 @@ function PostForm() {
     console.log(res);
     if (res) {
       setPostItem(null);
+      dispatch(fetchAddSuccess(res));
     }
   };
 
@@ -60,7 +63,8 @@ function PostForm() {
       <Container>
         <div className={cx('inner')}>
           <Button
-            to={config.routes.post}
+            // to={config.routes.post}
+            onClick={() => navigate(-1)}
             iconLeft={<FontAwesomeIcon icon={faChevronLeft} />}
             className={cx('back-btn')}
           >
@@ -68,7 +72,7 @@ function PostForm() {
           </Button>
 
           <form className={cx('form')}>
-            <div className={cx('form-gruop')}>
+            <div className={cx('form-group')}>
               <span className={cx('form-label')}>Title</span>
               <input
                 type="text"
@@ -78,7 +82,7 @@ function PostForm() {
                 className={cx('form-controls')}
               />
             </div>
-            <div className={cx('form-gruop')}>
+            <div className={cx('form-group')}>
               <span className={cx('form-label')}>Description</span>
               <textarea
                 rows={10}

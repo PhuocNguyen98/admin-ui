@@ -11,8 +11,8 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Button from '~/components/Button';
-import { getPosts } from '~/api/postApi';
-import { fetchDataSuccess } from '~/store/actionsType';
+import { getPosts, deletePost } from '~/api/postApi';
+import { fetchDataSuccess, fetchDeleteSuccess } from '~/store/actionsType';
 import config from '~/config';
 
 const cx = classNames.bind(styles);
@@ -27,17 +27,27 @@ function Post() {
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    if (posts.data.length === 0) {
+      getData();
+    }
+  }, [posts.data]);
 
   const renderHeaderTable = () => {
-    let header = Object.keys(posts.data[0]);
-    header = [...header, 'Actions'];
-    return header.map((valua, index) => (
-      <th key={index} className="text-center">
-        {valua.toUpperCase()}
-      </th>
-    ));
+    if (posts.data.length > 0) {
+      let header = Object.keys(posts.data[0]);
+      header = [...header, 'Actions'];
+      return header.map((valua, index) => (
+        <th key={index} className="text-center">
+          {valua.toUpperCase()}
+        </th>
+      ));
+    }
+  };
+
+  const handleDelete = async (id) => {
+    const res = await deletePost(`${id}`);
+    console.log(res);
+    dispatch(fetchDeleteSuccess(id));
   };
 
   const renderTableData = () => {
@@ -57,7 +67,7 @@ function Post() {
             Edit
           </Button>
           <Button
-            to="/"
+            onClick={() => handleDelete(item.id)}
             iconLeft={<FontAwesomeIcon icon={faTrashCan} />}
             btnDanger
             small
@@ -73,7 +83,7 @@ function Post() {
     <Container>
       <div className={cx('wrapper')}>
         <div className={cx('inner')}>
-          <div className="header">
+          <div className={cx('header')}>
             <h2 className={cx('title')}>Post List</h2>
             <Button
               to={config.pages.addPost}

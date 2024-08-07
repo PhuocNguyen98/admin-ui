@@ -8,7 +8,17 @@ export const fetchDataSuccess = (data) => ({
   payload: data,
 });
 
+export const fetchAddSuccess = (data) => ({
+  type: ADD_POST,
+  payload: data,
+});
+
 export const fetchEditSuccess = (data) => ({
   type: EDIT_POST,
+  payload: data,
+});
+
+export const fetchDeleteSuccess = (data) => ({
+  type: DELETE_POST,
   payload: data,
 });

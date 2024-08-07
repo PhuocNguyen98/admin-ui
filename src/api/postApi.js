@@ -19,3 +19,8 @@ export const editPost = async (id, data) => {
   const res = await baseApi.put(`/posts/${id}`, data);
   return res;
 };
+
+export const deletePost = async (id) => {
+  const res = await baseApi.deleted(`/posts/${id}`);
+  return res;
+};

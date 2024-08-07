@@ -1,7 +1,7 @@
 import { GET_POST, ADD_POST, EDIT_POST, DELETE_POST } from '../actionsType';
 
 const initialState = {
-  data: null,
+  data: [],
   isLoading: false,
   error: null,
 };
@@ -11,7 +11,11 @@ const postReducer = (state = initialState, action) => {
     case GET_POST:
       return { ...state, data: action.payload, isLoading: false };
     case ADD_POST:
-      return;
+      return {
+        ...state,
+        data: [...state.data, action.payload],
+        isLoading: false,
+      };
     case EDIT_POST: {
       const newState = state.data.map((item) => {
         if (item.id === action.payload.id) {
@@ -22,8 +26,11 @@ const postReducer = (state = initialState, action) => {
       return { ...state, data: newState, isLoading: false };
     }
 
-    case DELETE_POST:
-      return;
+    case DELETE_POST: {
+      console.log(action.payload);
+      const newState = state.data.filter((item) => item.id !== action.payload);
+      return { ...state, data: newState, isLoading: false };
+    }
     default:
       return state;
   }
