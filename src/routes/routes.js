@@ -4,6 +4,7 @@ import Home from '~/pages/Home';
 import Post from '~/pages/Post';
 import PostForm from '~/pages/Post/PostForm';
 import Login from '~/pages/Auth';
+import ContactUs from '~/pages/ContactUs';
 
 // Những routes chỉ khi đăng nhập mới vào được
 export const privateRoutes = [];
@@ -15,4 +16,5 @@ export const publicRoutes = [
   { path: config.pages.addPost, component: PostForm },
   { path: config.pages.editPost, component: PostForm },
   { path: config.routes.login, component: Login, layout: null },
+  { path: config.routes.contact, component: ContactUs },
 ];

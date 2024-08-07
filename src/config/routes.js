@@ -2,6 +2,7 @@ const routes = {
   home: '/',
   post: '/post',
   login: '/login',
+  contact: '/contact-us',
 };
 
 export const pages = {
