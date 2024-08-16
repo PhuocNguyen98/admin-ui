@@ -12,7 +12,10 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Button from '~/components/Button';
 import { getPosts, deletePost } from '~/api/postApi';
-import { fetchDataSuccess, fetchDeleteSuccess } from '~/store/actionsType';
+import {
+  fetchDataSuccess,
+  fetchDeleteSuccess,
+} from '~/store/actionsType/postActions';
 import config from '~/config';
 
 const cx = classNames.bind(styles);

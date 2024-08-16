@@ -95,6 +95,7 @@ function ContactUs() {
     remove(index);
   };
 
+  console.log(fields);
   return (
     <div className={cx('wrapper')}>
       <Container>
@@ -107,6 +108,7 @@ function ContactUs() {
           </div>
           <form className={cx('form', 'pt-5 pb-5')}>
             {fields.map((item, index) => {
+              // console.log(item);
               return (
                 <>
                   <p className={cx('form-title')}>
@@ -130,7 +132,10 @@ function ContactUs() {
                           fieldState: { error },
                         }) => (
                           <div className={cx('form-group')}>
-                            <label for="firstName" className={cx('form-label')}>
+                            <label
+                              htmlFor="firstName"
+                              className={cx('form-label')}
+                            >
                               First Name
                             </label>
                             <input
@@ -157,7 +162,10 @@ function ContactUs() {
                           fieldState: { error },
                         }) => (
                           <div className={cx('form-group')}>
-                            <label for="lastName" className={cx('form-label')}>
+                            <label
+                              htmlFor="lastName"
+                              className={cx('form-label')}
+                            >
                               Last Name
                             </label>
                             <input
@@ -188,7 +196,7 @@ function ContactUs() {
                               onChange={onChange}
                               value={value}
                             />
-                            <label for="agree">&nbsp;Ban co dong y</label>
+                            <label htmlFor="agree">&nbsp;Ban co dong y</label>
                           </div>
                         )}
                       />
@@ -220,7 +228,7 @@ function ContactUs() {
                           fieldState: { error },
                         }) => (
                           <div className={cx('form-group')}>
-                            <label for="email" className={cx('form-label')}>
+                            <label htmlFor="email" className={cx('form-label')}>
                               Email
                             </label>
                             <input
@@ -247,7 +255,7 @@ function ContactUs() {
                           fieldState: { error },
                         }) => (
                           <div className={cx('form-group')}>
-                            <label for="phone" className={cx('form-label')}>
+                            <label htmlFor="phone" className={cx('form-label')}>
                               Phone
                             </label>
                             <input
@@ -271,7 +279,10 @@ function ContactUs() {
                         name={`formList.${index}.company`}
                         render={({ field: { onChange, value } }) => (
                           <div className={cx('form-group')}>
-                            <label for="company" className={cx('form-label')}>
+                            <label
+                              htmlFor="company"
+                              className={cx('form-label')}
+                            >
                               Company
                             </label>
                             <input
@@ -292,7 +303,7 @@ function ContactUs() {
                         name={`formList.${index}.job`}
                         render={({ field: { onChange, value } }) => (
                           <div className={cx('form-group')}>
-                            <label for="job" className={cx('form-label')}>
+                            <label htmlFor="job" className={cx('form-label')}>
                               Job Title
                             </label>
                             <input
@@ -313,7 +324,10 @@ function ContactUs() {
                         name={`formList.${index}.street`}
                         render={({ field: { onChange, value } }) => (
                           <div className={cx('form-group')}>
-                            <label for="street" className={cx('form-label')}>
+                            <label
+                              htmlFor="street"
+                              className={cx('form-label')}
+                            >
                               Street
                             </label>
                             <input
@@ -334,7 +348,7 @@ function ContactUs() {
                         name={`formList.${index}.city`}
                         render={({ field: { onChange, value } }) => (
                           <div className={cx('form-group')}>
-                            <label for="city" className={cx('form-label')}>
+                            <label htmlFor="city" className={cx('form-label')}>
                               City
                             </label>
                             <select
@@ -358,7 +372,10 @@ function ContactUs() {
                         name={`formList.${index}.province`}
                         render={({ field: { onChange, value } }) => (
                           <div className={cx('form-group')}>
-                            <label for="province" className={cx('form-label')}>
+                            <label
+                              htmlFor="province"
+                              className={cx('form-label')}
+                            >
                               Province
                             </label>
                             <input
@@ -379,7 +396,10 @@ function ContactUs() {
                         name={`formList.${index}.zipCode`}
                         render={({ field: { onChange, value } }) => (
                           <div className={cx('form-group')}>
-                            <label for="zipCode" className={cx('form-label')}>
+                            <label
+                              htmlFor="zipCode"
+                              className={cx('form-label')}
+                            >
                               Zip Code
                             </label>
                             <input
@@ -403,7 +423,10 @@ function ContactUs() {
                         name={`formList.${index}.country`}
                         render={({ field: { onChange, value } }) => (
                           <div className={cx('form-group')}>
-                            <label for="country" className={cx('form-label')}>
+                            <label
+                              htmlFor="country"
+                              className={cx('form-label')}
+                            >
                               Country
                             </label>
                             <input
@@ -424,7 +447,7 @@ function ContactUs() {
                         name={`formList.${index}.topic`}
                         render={({ field: { onChange, value } }) => (
                           <div className={cx('form-group')}>
-                            <label for="topic" className={cx('form-label')}>
+                            <label htmlFor="topic" className={cx('form-label')}>
                               Topic
                             </label>
                             <input

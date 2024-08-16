@@ -12,7 +12,10 @@ import * as yup from 'yup';
 
 import Button from '~/components/Button';
 import { addPost, getPostById, editPost } from '~/api/postApi';
-import { fetchAddSuccess, fetchEditSuccess } from '~/store/actionsType';
+import {
+  fetchAddSuccess,
+  fetchEditSuccess,
+} from '~/store/actionsType/postActions';
 
 const cx = classNames.bind(styles);
 

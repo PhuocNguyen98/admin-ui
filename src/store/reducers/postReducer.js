@@ -1,4 +1,9 @@
-import { GET_POST, ADD_POST, EDIT_POST, DELETE_POST } from '../actionsType';
+import {
+  GET_POST,
+  ADD_POST,
+  EDIT_POST,
+  DELETE_POST,
+} from '../actionsType/postActions';
 
 const initialState = {
   data: [],
