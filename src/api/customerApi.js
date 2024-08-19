@@ -1,7 +1,7 @@
 import { baseApi } from '~/utils/axios';
 
-export const getCustomers = async () => {
-  const res = await baseApi.get('/customer');
+export const getCustomers = async (page, size) => {
+  const res = await baseApi.get(`customer?page=${page}&size=${size}`);
   return res;
 };
 
@@ -17,6 +17,11 @@ export const addCustomer = async (data) => {
 
 export const editCustomer = async (id, data) => {
   const res = await baseApi.put(`/customer/${id}`, data);
+  return res;
+};
+
+export const editMultipleCustomer = async (data) => {
+  const res = await baseApi.put('/customer', data);
   return res;
 };
 

@@ -7,7 +7,7 @@ import {
   faPenToSquare,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -15,56 +15,55 @@ import * as yup from 'yup';
 
 import Button from '~/components/Button';
 import config from '~/config';
-import { getCustomers, deleteCustomer } from '~/api/customerApi';
+import {
+  getCustomers,
+  deleteCustomer,
+  editMultipleCustomer,
+} from '~/api/customerApi';
 import {
   fetchDataSuccess,
   fetchDeleteSuccess,
 } from '~/store/actionsType/customerActions';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-const schema = yup
-  .object()
-  .shape({
-    formList: yup.array(
-      yup.object({
-        evaluate: yup.string(),
-        reason: yup.string(),
-      }),
-    ),
-  })
-  .required();
+const schema = yup.object().shape({
+  formList: yup.array(
+    yup.object({
+      evaluate: yup.string().required(),
+      reason: yup.string().nullable(),
+    }),
+  ),
+});
 
 function Customer() {
+  const [pagination, setPagination] = useState({});
+  const [pageCurrent, setPageCurrent] = useState(1);
+  const [pageSize, setPageSize] = useState(2);
   const dispatch = useDispatch();
   const customers = useSelector((state) => state.customer);
   const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
-      formList: [
-        {
-          evaluate: '',
-          reason: '',
-        },
-      ],
+      formList: [],
     },
     resolver: yupResolver(schema),
   });
 
-  const { fields, append } = useFieldArray({
+  const { fields } = useFieldArray({
     control,
     name: 'formList',
   });
 
   //----------------------------------------------------------------
-  const getData = async () => {
-    const res = await getCustomers();
+  const getData = async (page, size) => {
+    const res = await getCustomers(page, size);
     dispatch(fetchDataSuccess(res));
   };
 
   useEffect(() => {
     if (customers.data.length === 0) {
-      getData();
-      handleAddFields();
+      getData(pageCurrent, pageSize);
     }
   }, [customers.data.length]);
 
@@ -76,26 +75,59 @@ function Customer() {
   };
   // ----------------------------------------------------------------
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data);
+  const checkDataChange = (data) => {
+    let isCheck = false;
+    const customer = customers.data.find((item) => {
+      return item.customerId === data.customerId;
+    });
+    if (customer) {
+      if (
+        customer.evaluate !== +data.evaluate ||
+        customer.reason !== data.reason
+      ) {
+        isCheck = true;
+      }
+    }
+    return isCheck;
+  };
+
+  const onSubmit = handleSubmit(async (data) => {
+    const newData = [];
+    data.formList.map((item) => {
+      let isCheck = checkDataChange(item);
+      if (isCheck) {
+        if (+item.evaluate === 1) {
+          item.reason = null;
+          return newData.push(item);
+        }
+        return newData.push(item);
+      }
+      return 0;
+    });
+    console.log(newData);
+    const res = await editMultipleCustomer(newData);
   });
 
   const handleAddFields = () => {
     for (let i = 0; i < customers.data.length; i++) {
-      append({
-        evaluate: '',
-        reason: '',
-      });
+      setValue(`formList.${i}.customerId`, customers.data[i].customerId);
+      setValue(`formList.${i}.evaluate`, customers.data[i].evaluate);
+      setValue(`formList.${i}.reason`, customers.data[i].reason);
     }
   };
 
-  console.log(fields);
-
   const renderTable = () => {
+    handleAddFields();
     return customers.data.map((customer, index) => {
       return (
         <tr key={index}>
-          <td>{customer.customerId}</td>
+          <td>
+            <Controller
+              control={control}
+              name={`formList.${index}.customerId`}
+              render={({ field: { value } }) => <span>{value}</span>}
+            />
+          </td>
           <td>{customer.firstName}</td>
           <td>{customer.lastName}</td>
           <td>{customer.email}</td>
@@ -126,7 +158,7 @@ function Customer() {
               render={({ field: { onChange, value } }) => (
                 <input
                   placeholder="Reason..."
-                  value={value}
+                  value={value ? value : ''}
                   onChange={onChange}
                 />
               )}
@@ -171,24 +203,34 @@ function Customer() {
             </Button>
           </div>
           <div className={cx('body')}>
-            <form action="">
-              <Table bordered hover>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Evaluate</th>
-                    <th>Reason</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>{renderTable()}</tbody>
-              </Table>
-            </form>
+            <Table bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Evaluate</th>
+                  <th>Reason</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>{renderTable()}</tbody>
+            </Table>
+          </div>
+          <div>
+            <span>Rows per page:</span>
+            <select onChange={(e) => getData(pageCurrent, e.target.value)}>
+              <option value="2">2</option>
+              <option value="4">4</option>
+            </select>
+
+            <span>
+              &nbsp;
+              {pagination.page} - {pagination.pageSize}
+            </span>
           </div>
         </div>
       </Container>
